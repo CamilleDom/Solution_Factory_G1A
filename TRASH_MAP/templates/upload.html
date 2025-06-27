@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Uploader et classifier - Trash Map{% endblock %}
+
+{% block content %}
+<div class="row">
+  <!-- Colonne gauche : tableau (50%) -->
+  <div class="col-md-6">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h2 class="card-title mb-3">Aperçu des fichiers</h2>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nom du fichier</th>
+              <th>Date d’import</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody id="file-list">
+            {% for file in files %}
+            <tr>
+              <td>{{ file.name }}</td>
+              <td>{{ file.upload_date.strftime('%d/%m/%Y') }}</td>
+              <td>{{ file.status }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3" class="text-center">Aucun fichier téléversé</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Colonne droite : classification et upload -->
+  <div class="col-md-6">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body d-flex flex-column justify-content-between" style="height:100%;">
+        <div>
+          <h2 class="card-title mb-3 text-center">Classifier l'image</h2>
+          <!-- Boutons de classification côte à côte -->
+          <div class="d-flex justify-content-around mb-4">
+            <button type="button" id="btn-full" class="btn btn-outline-primary">Poubelle pleine</button>
+            <button type="button" id="btn-empty" class="btn btn-outline-success">Poubelle vide</button>
+          </div>
+        </div>
+        <!-- Formulaire d'upload en bas -->
+        <form id="upload-form" method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="file" class="form-label">Sélectionner un fichier</label>
+            <input class="form-control" type="file" id="file" name="file" required>
+          </div>
+          <input type="hidden" id="status-input" name="status" value="">
+          <button type="submit" class="btn btn-primary w-100">Téléverser et classifier</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Gestion de la classification et mise à jour du tableau
+let selectedStatus = '';
+
+// Boutons de statut
+const btnFull = document.getElementById('btn-full');
+const btnEmpty = document.getElementById('btn-empty');
+const statusInput = document.getElementById('status-input');
+
+btnFull.addEventListener('click', () => {
+  selectedStatus = 'Pleine';
+  btnFull.classList.add('active');
+  btnEmpty.classList.remove('active');
+  statusInput.value = selectedStatus;
+});
+btnEmpty.addEventListener('click', () => {
+  selectedStatus = 'Vide';
+  btnEmpty.classList.add('active');
+  btnFull.classList.remove('active');
+  statusInput.value = selectedStatus;
+});
+
+// Visualiser immédiatement le fichier chargé
+const fileInput = document.getElementById('file');
+const fileList = document.getElementById('file-list');
+
+fileInput.addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  const now = new Date();
+  const dateStr = ('0' + now.getDate()).slice(-2) + '/' +
+                  ('0' + (now.getMonth()+1)).slice(-2) + '/' +
+                  now.getFullYear();
+  // Retirer le message "Aucun fichier téléversé"
+  const emptyRow = fileList.querySelector('tr td[colspan]');
+  if (emptyRow) {
+    fileList.innerHTML = '';
+  }
+  // Ajouter la ligne
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${file.name}</td><td>${dateStr}</td><td>${selectedStatus || ''}</td>`;
+  fileList.prepend(tr);
+});
+
+// Avant soumission, s'assurer qu'un statut est choisi
+const uploadForm = document.getElementById('upload-form');
+uploadForm.addEventListener('submit', (e) => {
+  if (!selectedStatus) {
+    e.preventDefault();
+    alert('Veuillez sélectionner le statut de la poubelle (pleine ou vide).');
+  }
+});
+</script>
+{% endblock %}

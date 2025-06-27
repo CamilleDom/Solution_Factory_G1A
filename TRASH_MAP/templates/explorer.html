@@ -1,0 +1,40 @@
+{# templates/explorer.html #}
+{% extends "base.html" %}
+
+{% block title %}Explorer – Trash Map{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center mb-4">
+    <div class="col-12">
+      <h1 class="display-5 text-center">Galerie des photos</h1>
+      <p class="lead text-center">
+        Parcourez toutes les images soumises par les utilisateurs.
+      </p>
+    </div>
+  </div>
+
+  {% if images %}
+    <div class="row g-4">
+      {% for img in images %}
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card h-100 shadow-sm">
+            <img 
+              src="{{ url_for('static', filename='uploads/' ~ img.filename) }}" 
+              class="card-img-top" 
+              alt="Photo {{ loop.index }}"
+            >
+            <div class="card-body p-2">
+              <p class="card-text small text-center text-muted">
+                {{ img.upload_date.strftime('%d %b %Y') }}
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center" role="alert">
+      Aucune photo disponible pour le moment.
+    </div>
+  {% endif %}
+{% endblock %}

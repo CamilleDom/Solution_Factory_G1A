@@ -1,0 +1,21 @@
+{# templates/map.html #}
+{% extends "base.html" %}
+
+{% block title %}Carte – Trash Map{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center mb-4">
+    <div class="col-12">
+      <h1 class="display-5 text-center">Carte interactive</h1>
+      <p class="lead text-center">
+        Visualisez l’emplacement de toutes les poubelles et zones à risque.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div id="map" class="w-100" style="height: 600px;"></div>
+    </div>
+  </div>
+{% endblock %}
