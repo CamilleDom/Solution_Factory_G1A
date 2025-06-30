@@ -24,6 +24,8 @@ db.serialize(() => {
     true_label TEXT NOT NULL CHECK(true_label IN ('clean', 'dirty','?')),
     upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     username TEXT NOT NULL,
+    localisation TEXT default 'unknown',
+    description TEXT default 'no description',
     Quizz TEXT NOT NULL CHECK(label IN ('clean', 'dirty','pachyderm')) default 'pachyderm',
     FOREIGN KEY (username) REFERENCES Users(username) ON DELETE CASCADE
   );`);
