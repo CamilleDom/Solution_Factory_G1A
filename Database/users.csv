@@ -3,4 +3,4 @@ alice,alice@example.com,12345,5,user,150.5
 bob,bob@example.com,67890,2,user,75.0
 charlie,charlie@example.com,11111,0,user,0.0
 diana,diana@example.com,22222,10,admin,300.75
-john,john.doe@example.com,666,10,anonyme,300.75
+anonymous,john.doe@example.com,666,10,anonyme,300.75
