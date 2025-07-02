@@ -1,6 +1,8 @@
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
 const csv = require('csv-parser');
+const bcrypt = require('bcrypt');
+
 
 const db = new sqlite3.Database('./database_factory.db');
 
@@ -11,7 +13,8 @@ db.serialize(() => {
   db.run(`DROP TABLE IF EXISTS Images;`);
   db.run(`DROP TABLE IF EXISTS Users;`);
   db.run(`CREATE TABLE Users (
-    username TEXT PRIMARY KEY NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
     nb_pic INTEGER DEFAULT 0,
@@ -246,7 +249,7 @@ db.serialize(() => {
 
   /////////////////////////////////////////////////////////////////////////////////////////////
 
-  ///////////////////////////////////////// Function close  //////////////////////////////////
+  ///////////////////////////////////////// Function  //////////////////////////////////
   let doneCount = 0;
 
   function checkDone() {
@@ -266,6 +269,9 @@ db.serialize(() => {
     }
   }
 
+  async function hashPassword(password) {
+    return await bcrypt.hash(password,5);
+  }
   /////////////////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////// Importer les données //////////////////////////////////
@@ -289,28 +295,40 @@ db.serialize(() => {
       checkDone();
     });
 
+
   // Importer les utilisateurs
+
+  const usersToInsert = [];
+
   fs.createReadStream('./users.csv')
     .pipe(csv())
     .on('data', (row) => {
-      insertUserStmt.run(
-        row.username,
-        row.email,
-        row.password,
-        parseInt(row.nb_pic),
-        row.role,
-        parseFloat(row.points),
-        (err) => {
-          if (err) {
-            console.error(`❌ Erreur utilisateur : ${row.username}`, err.message);
+    usersToInsert.push(row);
+    })  
+    .on('end', async () => {
+    for (const row of usersToInsert) {
+      try {
+        const hash = await hashPassword(row.password);
+        insertUserStmt.run(
+          row.username,
+          row.email,
+          hash,
+          parseInt(row.nb_pic),
+          row.role,
+          parseFloat(row.points),
+          (err) => {
+            if (err) {
+              console.error(`❌ Erreur utilisateur : ${row.username}`, err.message);
+            }
           }
-        }
-      );
-    })
-    .on('end', () => {
-      insertUserStmt.finalize();
-      checkDone();
-    });
+        );
+      } catch (error) {
+        console.error('Error hashing password for user:', row.username, error);
+      }
+    }
+    insertUserStmt.finalize();
+    checkDone();
+  });
 
   // Importer les caractéristiques des images
   fs.createReadStream('../uploaded_image_features.csv')
