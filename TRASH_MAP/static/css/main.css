@@ -177,3 +177,8 @@ footer {
   font-size: 0.9rem;
   margin-top: auto;
 }
+
+#map {
+  height: 500px;
+  width: 100%;
+}
