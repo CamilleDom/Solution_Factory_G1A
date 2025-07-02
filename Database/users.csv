@@ -4,3 +4,5 @@ bob,bob@example.com,67890,0,user,0.0
 charlie,charlie@example.com,11111,0,user,0.0
 God,trashmapflaskemailer@egmail.com,22222,0,admin,0.0
 anonymous,john.doe@example.com,666,700,anonyme,300.75
+user,user@example.com,user,0,user,0.0
+admin,admin@example.com,admin,0,admin,0.0
