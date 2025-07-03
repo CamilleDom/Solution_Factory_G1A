@@ -25,7 +25,8 @@ db.serialize(() => {
 
   
   db.run(`CREATE TABLE Images (
-    file_path TEXT UNIQUE PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    file_path TEXT UNIQUE,
     label TEXT NOT NULL CHECK(label IN ('clean', 'dirty','unknown')) default 'unknown',
     true_label TEXT NOT NULL CHECK(true_label IN ('clean', 'dirty','unknown')),
     upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -37,7 +38,8 @@ db.serialize(() => {
   );`);
 
     db.run(`CREATE TABLE Features_Pics (
-    file_path TEXT UNIQUE PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    file_path TEXT UNIQUE,
     label TEXT CHECK(label IN ('clean', 'dirty','unknown')) NOT NULL,
     width INTEGER NOT NULL,
     height INTEGER NOT NULL,
