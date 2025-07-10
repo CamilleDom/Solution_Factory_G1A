@@ -141,3 +141,13 @@ Une **plateforme web** capable de :
 
 ## Lien Report
 [https://docs.google.com/document/d/1lGXKOW_4rMJZqfk0nf7szGWHEY7ahk_R7fxTzzzoFI4/edit?usp=sharing](https://docs.google.com/document/d/1lGXKOW_4rMJZqfk0nf7szGWHEY7ahk_R7fxTzzzoFI4/edit?usp=sharing)
+
+---
+## Lien PPT Evaluation Technique
+[https://www.canva.com/design/DAGsHMzGB4k/86KaEIl4Lqjo-ZUyGLgSBw/edit?utm_content=DAGsHMzGB4k&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton]
+(https://www.canva.com/design/DAGsHMzGB4k/86KaEIl4Lqjo-ZUyGLgSBw/edit?utm_content=DAGsHMzGB4k&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+---
+## Lien PPT Evaluation Jury
+[https://www.canva.com/design/DAGsfidfujw/AhYjnE283eHYMmVt3QOobg/edit?utm_content=DAGsfidfujw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton]
+(https://www.canva.com/design/DAGsfidfujw/AhYjnE283eHYMmVt3QOobg/edit?utm_content=DAGsfidfujw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
